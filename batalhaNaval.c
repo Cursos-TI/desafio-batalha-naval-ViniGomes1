@@ -36,5 +36,54 @@ int main() {
     // 1 1 1 1 1
     // 0 0 1 0 0
 
+    int quadro[10][10];
+
+    int i;
+    int j;
+
+    //numero de atribuição do barco
+    int barco = 3;
+
+    //posições que o barco terá na matriz
+    int barcoPosicao[3][2] = {
+        {5,2},
+        {5,3},
+        {5,4}
+    };
+
+    //Atribuição das posições das matrizes
+    /*
+    EXPLICAÇÃO:
+
+    A matriz quadro será percorrida com [i] representando a linha e [j] as colunas
+    
+    segundo a matriz barcoPosicao com os 3 valores de posição pré declarados, será comparada aonde i e j estão, e assim associa 
+    o numero 3 da variável barco nessas posições
+
+    */
+    for(i = 0; i < 10; i++){
+        for(j = 0; j < 10; j++){
+
+            if(i == barcoPosicao[0][0] && j == barcoPosicao[0][1]){
+                quadro[i-1][j-1] = barco;
+            }else if(i == barcoPosicao[1][0] && j == barcoPosicao[1][1]){
+                quadro[i-1][j-1] = barco;
+            }else if(i == barcoPosicao[2][0] && j == barcoPosicao[2][1]){
+                quadro[i-1][j-1] = barco;
+            }else{
+                quadro[i][j] = 0;
+
+            }
+        }
+    }
+    
+    //por fim, tudo é imprimido
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            printf("%d ", quadro[i][j]);
+        }
+        printf("\n");
+    }
+
     return 0;
 }
