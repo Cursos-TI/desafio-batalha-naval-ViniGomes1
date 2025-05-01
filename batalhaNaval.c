@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdbool.h>
+
+#include <stdlib.h>
 
 // Desafio Batalha Naval - MateCheck
 // Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
@@ -43,13 +46,18 @@ int main() {
 
     //numero de atribuição do barco
     int barco = 3;
+    
+    //booleanos de posições
+    bool diagonal = false;
+    bool horizontal = true;
 
-    //posições que o barco terá na matriz
-    int barcoPosicao[3][2] = {
-        {5,2},
-        {5,3},
-        {5,4}
-    };
+    //posições horizontais e verticais que o barco terá na matriz
+    int barcoPosicao[2] = {0,2};
+    int barcoPosicao2[2] = {2,2};
+
+    //posições diagonais que o barco terá
+    int barcoPosicao3[2] = {3,5};
+    int barcoPosicao4[2] = {7,5};
 
     //Atribuição das posições das matrizes
     /*
@@ -57,26 +65,52 @@ int main() {
 
     A matriz quadro será percorrida com [i] representando a linha e [j] as colunas
     
-    segundo a matriz barcoPosicao com os 3 valores de posição pré declarados, será comparada aonde i e j estão, e assim associa 
-    o numero 3 da variável barco nessas posições
+    segundo a matriz barcoPosicao com o valor da posição inicial, será comparada aonde i e j estão, e assim associa 
+    o numero 3 da variável barco nessa posição 
 
     */
     for(i = 0; i < 10; i++){
         for(j = 0; j < 10; j++){
+            if(barcoPosicao[0] == i && barcoPosicao[1] == j && horizontal == true){
+                quadro[i][j] = barco;
+                quadro[i][j+1] = barco;
+                quadro[i][j+2] = barco;
+                j+= 3; // j pulará 3 colunas para que não haja sobreposição dos algarismos subsequentes 
+                horizontal = false;
+            }else if(barcoPosicao2[0] == i && barcoPosicao2[1] == j && horizontal == false){
+                quadro[i][j] = barco;
+                quadro[i+1][j] = barco;
+                quadro[i+2][j] = barco;
+            }else if(quadro[i][j] == barco){
+                quadro[i][j] = barco; // o objetivo deste código é mais uma vez manter a integridade dos algarismos em que barco se encontra
+            }
+            else{
+                quadro[i][j] = 0;
+            }
 
-            if(i == barcoPosicao[0][0] && j == barcoPosicao[0][1]){
-                quadro[i-1][j-1] = barco;
-            }else if(i == barcoPosicao[1][0] && j == barcoPosicao[1][1]){
-                quadro[i-1][j-1] = barco;
-            }else if(i == barcoPosicao[2][0] && j == barcoPosicao[2][1]){
-                quadro[i-1][j-1] = barco;
+    }
+}
+    /*
+    este laço for percorrerá a matriz de forma diferente do anterior, com o objetivo de representar as diagonais
+    */
+    for(int i = 0; i < 10; i++){
+        for(int j = 10; j >= 0; j--){
+
+            if(i == barcoPosicao3[0] && j == barcoPosicao3[1]){
+                quadro[i][j] = barco;
+                quadro[i+1][j+1] = barco;
+                quadro[i+2][j+2] = barco;
+            }else if(i == barcoPosicao4[0] && j == barcoPosicao4[1]){
+                quadro[i][j] = barco;
+                quadro[i+1][j-1] = barco;
+                quadro[i+2][j-2] = barco;
+            }else if(quadro[i][j] == barco){
+                quadro[i][j] = barco;
             }else{
                 quadro[i][j] = 0;
-
             }
         }
     }
-    
     //por fim, tudo é imprimido
     for(int i = 0; i < 10; i++){
         for(int j = 0; j < 10; j++){
