@@ -6,6 +6,138 @@
 // Desafio Batalha Naval - MateCheck
 // Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
 // Siga os comentários para implementar cada parte do desafio.
+/*
+
+mudanças importantes em relação ao commit anterior:
+
+1 - as variáveis essênciais como a matriz da batalha naval e os números correspondentes a objetos, agora são globais
+o objetivo disto é permitir que funções possam as manipular, facilitando a compreensão do código
+
+2 - agora há funções que exercem tarefas específicas
+
+*/
+int barco = 3;
+int habilidades = 5;
+
+int quadro[10][10];
+
+//função relacionada as diagonais
+void diagonal(int barcoPosicao3[2], int barcoPosicao4[2]){
+    for(int i = 0; i < 10; i++){
+        for(int j = 10; j >= 0; j--){
+
+            if(i == barcoPosicao3[0] && j == barcoPosicao3[1]){
+                quadro[i][j] = barco;
+                quadro[i+1][j+1] = barco;
+                quadro[i+2][j+2] = barco;
+            }else if(i == barcoPosicao4[0] && j == barcoPosicao4[1]){
+                quadro[i][j] = barco;
+                quadro[i+1][j-1] = barco;
+                quadro[i+2][j-2] = barco;
+            }else if(quadro[i][j] == barco){
+                quadro[i][j] = barco;
+            }else{
+                quadro[i][j] = 0;
+            }
+        }
+    }
+}
+
+//função relacionada as posições horizontais e verticais
+void horizontal(int barcoPosicao[2], int barcoPosicao2[2]){
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            if(barcoPosicao[0] == i && barcoPosicao[1] == j){
+                quadro[i][j] = barco;
+                quadro[i][j+1] = barco;
+                quadro[i][j+2] = barco;
+                j+= 3;
+            }else if(barcoPosicao2[0] == i && barcoPosicao2[1] == j){
+                quadro[i][j] = barco;
+                quadro[i+1][j] = barco;
+                quadro[i+2][j] = barco;
+            }else if(quadro[i][j] == barco){
+                quadro[i][j] = barco;
+            }
+            else{
+                quadro[i][j] = 0;
+            }
+
+        }
+    }
+}
+//função da habilidade do cone
+void cone(int conePosicao[2]){
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            if(i == conePosicao[0] && j == conePosicao[1]){
+                quadro[i-1][j] = habilidades;
+                quadro[i][j] = habilidades;
+                quadro[i][j-1] = habilidades;
+                quadro[i][j+1] = habilidades;
+                quadro[i+1][j] = habilidades;
+                quadro[i+1][j+1] = habilidades;
+                quadro[i+1][j+2] = habilidades;
+                quadro[i+1][j-1] = habilidades;
+                quadro[i+1][j-2] = habilidades;
+            }else if(quadro[i][j] == habilidades){
+                quadro[i][j] = habilidades;
+            }else if(quadro[i][j] == barco){
+                quadro[i][j] == barco;
+            }
+            else{
+                quadro[i][j] = 0;
+            }
+        }
+    }
+}
+
+//função da habilidade de cruz
+void cruz(int cruzPosicao[2]){
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            if(i == cruzPosicao[0] && j == cruzPosicao[1]){
+                quadro[i-1][j] = habilidades;
+                quadro[i][j] = habilidades;
+                quadro[i][j-1] = habilidades;
+                quadro[i][j-2] = habilidades;
+                quadro[i][j+1] = habilidades;
+                quadro[i][j+2] = habilidades;
+                quadro[i+1][j] = habilidades;
+            }else if(quadro[i][j] == habilidades){
+                quadro[i][j] = habilidades;
+            }else if(quadro[i][j] == barco){
+                quadro[i][j] == barco;
+            }
+            else{
+                quadro[i][j] = 0;
+            }
+        }
+    }
+}
+
+//função da habilidade do octaedro
+void octaedro(int octaedroPosicao[2]){
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            if(i == octaedroPosicao[0] && j == octaedroPosicao[1]){
+                quadro[i-1][j] = habilidades;
+                quadro[i][j] = habilidades;
+                quadro[i][j-1] = habilidades;
+                quadro[i][j+1] = habilidades;
+                quadro[i+1][j] = habilidades;
+            }else if(quadro[i][j] == habilidades){
+                quadro[i][j] = habilidades;
+            }else if(quadro[i][j] == barco){
+                quadro[i][j] == barco;
+            }
+            else{
+                quadro[i][j] = 0;
+            }
+        }
+    }
+}
+
 
 int main() {
     // Nível Novato - Posicionamento dos Navios
@@ -39,18 +171,6 @@ int main() {
     // 1 1 1 1 1
     // 0 0 1 0 0
 
-    int quadro[10][10];
-
-    int i;
-    int j;
-
-    //numero de atribuição do barco
-    int barco = 3;
-    
-    //booleanos de posições
-    bool diagonal = false;
-    bool horizontal = true;
-
     //posições horizontais e verticais que o barco terá na matriz
     int barcoPosicao[2] = {0,2};
     int barcoPosicao2[2] = {2,2};
@@ -59,58 +179,17 @@ int main() {
     int barcoPosicao3[2] = {3,5};
     int barcoPosicao4[2] = {7,5};
 
-    //Atribuição das posições das matrizes
-    /*
-    EXPLICAÇÃO:
+    int conePosicao[2] = {6,2};
+    int cruzPosicao[2] = {8,7};
+    int octaedroPosicao[2] = {1,8};
 
-    A matriz quadro será percorrida com [i] representando a linha e [j] as colunas
+    diagonal(barcoPosicao3, barcoPosicao4);
+    horizontal(barcoPosicao, barcoPosicao2);
     
-    segundo a matriz barcoPosicao com o valor da posição inicial, será comparada aonde i e j estão, e assim associa 
-    o numero 3 da variável barco nessa posição 
-
-    */
-    for(i = 0; i < 10; i++){
-        for(j = 0; j < 10; j++){
-            if(barcoPosicao[0] == i && barcoPosicao[1] == j && horizontal == true){
-                quadro[i][j] = barco;
-                quadro[i][j+1] = barco;
-                quadro[i][j+2] = barco;
-                j+= 3; // j pulará 3 colunas para que não haja sobreposição dos algarismos subsequentes 
-                horizontal = false;
-            }else if(barcoPosicao2[0] == i && barcoPosicao2[1] == j && horizontal == false){
-                quadro[i][j] = barco;
-                quadro[i+1][j] = barco;
-                quadro[i+2][j] = barco;
-            }else if(quadro[i][j] == barco){
-                quadro[i][j] = barco; // o objetivo deste código é mais uma vez manter a integridade dos algarismos em que barco se encontra
-            }
-            else{
-                quadro[i][j] = 0;
-            }
-
-    }
-}
-    /*
-    este laço for percorrerá a matriz de forma diferente do anterior, com o objetivo de representar as diagonais
-    */
-    for(int i = 0; i < 10; i++){
-        for(int j = 10; j >= 0; j--){
-
-            if(i == barcoPosicao3[0] && j == barcoPosicao3[1]){
-                quadro[i][j] = barco;
-                quadro[i+1][j+1] = barco;
-                quadro[i+2][j+2] = barco;
-            }else if(i == barcoPosicao4[0] && j == barcoPosicao4[1]){
-                quadro[i][j] = barco;
-                quadro[i+1][j-1] = barco;
-                quadro[i+2][j-2] = barco;
-            }else if(quadro[i][j] == barco){
-                quadro[i][j] = barco;
-            }else{
-                quadro[i][j] = 0;
-            }
-        }
-    }
+    cone(conePosicao);
+    cruz(cruzPosicao);
+    octaedro(octaedroPosicao);
+    
     //por fim, tudo é imprimido
     for(int i = 0; i < 10; i++){
         for(int j = 0; j < 10; j++){
